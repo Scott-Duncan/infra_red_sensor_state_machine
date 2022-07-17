@@ -8,16 +8,15 @@ struct StActive : smacc::SmaccState<StActive, SmInfraRedSensor>
     using SmaccState::SmaccState;
 
 // TRANSITION TABLE
-    typedef mpl::list<
+    typedef smacc:mpl::list<
         
-    Transition<EvKeyPressN<CbDefaultKeyboardBehavior, OrKeyboard>, MsWeekend, PREEMPT>,
-    
+    smacc::Transition<EvCbSuccess<CbInfraRedSensorDetected, OrInfraRedSesor>, StIdle, SUCCESS>    
     >reactions;
 
 // STATE FUNCTIONS
     static void staticConfigure()
     {
-        configure_orthogonal<OrInfraRedSensor,  CbInfraRedSensorListening>(5);    
+        configure_orthogonal<OrInfraRedSensor,  CbInfraRedSensorActivate>();    
     }
 
     void runtimeConfigure()

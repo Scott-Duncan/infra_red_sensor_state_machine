@@ -1,0 +1,38 @@
+#ifndef CB_INFRARED_SENSOR_ACTIVATE_HPP
+#define CB_INFRARED_SENSOR_ACTIVATE_HPP
+
+#include <smacc/smacc_client_behavior.h>
+#include <infra_red_sensor_state_machine/clients/cl_arduino_infrared_sensor/cl_adruino_infrared_sensor.hpp>
+
+
+namespace sm_infra_red_sensor {
+template <typename TSource, typename TOrthogonal>
+struct EvSensorActivated : sc::event<EvSensorActivated<TSource, TOrthogonal>> {};
+
+class CbInfraredSensorActivated : public smacc::SmaccClientBehavior {
+ public:
+  void onEntry() override {
+    ClArduinoInfraredSensor* cl_arduino_infrared_sensor_;
+    this->requiresClient(cl_arduino_infrared_sensor_);
+    assert(cl_arduino_infrared_sensor_ != nullptr && "ClRfid == nullptr");
+    cl_arduino_infra_red_sensor_->onMessageReceived(&CbCompleteLoading::onMessageReceived, this);
+  }
+
+  void onMessageRecieved(const std_msgs::String& msg) { finishLoading(); }
+
+  template <typename TOrthogonal, typename TSourceObject>
+  void onOrthogonalAllocation() {
+    finishLoading = [this]() {
+      ROS_INFO("Sensor Activated");
+      auto ev = new EvSensorActivated<TSourceObject, TOrthogonal>();
+      this->postEvent(ev);
+    };
+  }
+
+ private:
+  std::function<void()> finishLoading;
+};
+}  // namespace sm_infra_red_sensor
+
+
+#endif

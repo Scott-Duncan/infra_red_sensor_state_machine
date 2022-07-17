@@ -1,6 +1,6 @@
 #include <smacc/smacc.h>
 
-namespace sm_calendar_week
+namespace sm_infrared_sensor
 {
 // STATE DECLARATION
 struct StActive : smacc::SmaccState<StActive, SmInfraRedSensor>

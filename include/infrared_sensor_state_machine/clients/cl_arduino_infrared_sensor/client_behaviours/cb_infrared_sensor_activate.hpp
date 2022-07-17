@@ -2,8 +2,7 @@
 #define CB_INFRARED_SENSOR_ACTIVATE_HPP
 
 #include <smacc/smacc_client_behavior.h>
-#include <infra_red_sensor_state_machine/clients/cl_arduino_infrared_sensor/cl_adruino_infrared_sensor.hpp>
-
+#include <infrared_sensor_state_machine/clients/cl_arduino_infrared_sensor/cl_arduino_infrared_sensor.hpp>
 
 namespace sm_infrared_sensor {
 template <typename TSource, typename TOrthogonal>
@@ -15,10 +14,10 @@ class CbInfraredSensorActivated : public smacc::SmaccClientBehavior {
     ClArduinoInfraredSensor* cl_arduino_infrared_sensor;
     this->requiresClient(cl_arduino_infrared_sensor);
     assert(cl_arduino_infrared_sensor != nullptr && "ClRfid == nullptr");
-    cl_arduino_infra_red_sensor->onMessageReceived(&CbCompleteLoading::onMessageReceived, this);
+    cl_arduino_infrared_sensor->onMessageReceived(&CbInfraredSensorActivated::onMessageReceived, this);
   }
 
-  void onMessageRecieved(const std_msgs::String& msg) { finishLoading(); }
+  void onMessageReceived(const std_msgs::String& msg) { sensorActivated(); }
 
   template <typename TOrthogonal, typename TSourceObject>
   void onOrthogonalAllocation() {
@@ -32,7 +31,7 @@ class CbInfraredSensorActivated : public smacc::SmaccClientBehavior {
  private:
   std::function<void()>sensorActivated;
 };
-}  // namespace sm_infra_red_sensor
+}  // namespace sm_infrared_sensor
 
 
 #endif

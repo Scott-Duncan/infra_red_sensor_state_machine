@@ -12,7 +12,7 @@
 //CLIENT BEHAVIORS
 #include <infra_red_sensor_state_machine/clients/client_behaviours>
 
-namespace sm_infra_red_sensor
+namespace sm_infrared_sensor
 {
 
 //STATES

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(infra_red_sensor_state_machine)
+project(infrared_sensor_state_machine)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -10,7 +10,7 @@ project(infra_red_sensor_state_machine)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  smmacc
+  smacc
   std_msgs
 )
 
@@ -105,7 +105,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES infra_red_sensor_state_machine
+#  LIBRARIES infrared_sensor_state_machine
 #  CATKIN_DEPENDS roscpp rospy smmacc std_msgs
 #  DEPENDS system_lib
 )
@@ -117,13 +117,17 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/infra_red_sensor_state_machine.cpp
+#   src/${PROJECT_NAME}/infrared_sensor_state_machine.cpp
+# )
+
+# add_library(orthogonal_arduino_ir_sensor
+#   src/orthogonals/or_arduino_infrared_sensor.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -134,8 +138,16 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/infra_red_sensor_state_machine_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/infrared_sensor_state_machine_node.cpp)
 
+add_executable( sm_infrared_sensor
+  src/sm_infrared_sensor.cpp
+)
+add_dependencies( sm_infrared_sensor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS}) 
+target_link_libraries( sm_infrared_sensor 
+  ${catkin_LIBRARIES}
+  # orthogonal_arduino_ir_sensor
+)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -198,7 +210,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_infra_red_sensor_state_machine.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_infrared_sensor_state_machine.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

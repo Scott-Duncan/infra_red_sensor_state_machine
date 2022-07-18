@@ -5,14 +5,13 @@
 #include <smacc/client_bases/smacc_subscriber_client.h>
 #include <std_msgs/String.h>
 
-namespace sm_infrared_sensor{
-class ClArduinoInfraredSensor 
-: public smacc::client_bases::SmaccSubscriberClient<
-                   std_msgs::String> {
+namespace sm_infrared_sensor {
+class ClArduinoInfraredSensor
+    : public smacc::client_bases::SmaccSubscriberClient<std_msgs::String> {
  public:
   ClArduinoInfraredSensor(const std::string& topic_name)
       : SmaccSubscriberClient<std_msgs::String>(topic_name) {}
 };
-}
+}  // namespace sm_infrared_sensor
 
 #endif  // CL_PRELOAD_H
